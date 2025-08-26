@@ -8,7 +8,7 @@
       <RouterLink :to="{ name: 'home' }">Home</RouterLink>
       <RouterLink :to="{ name: 'photos' }">Photos</RouterLink>
       <RouterLink :to="{ name: 'mentorship' }">Mentorship</RouterLink>
-      <RouterLink :to="{ name: 'application' }">Application</RouterLink>
+      <RouterLink :to="{ name: 'applications' }">Application</RouterLink>
       <RouterLink :to="{ name: 'about' }">About Us</RouterLink>
     </nav>
   </div>
