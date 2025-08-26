@@ -2,7 +2,7 @@
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import {auth} from "@/services/firebase.js"
 import {ref} from "vue"
-import AppBar from "@/components/AppBar.vue"
+import NavBar from "@/components/NavBar.vue"
 
 const user = ref()
 const email = ref("");
@@ -30,7 +30,7 @@ async function logout() {
 
 <template>
   <body>
-    <AppBar/>
+    <NavBar/>
     <RouterView />
     <input v-model="email" placeholder="Email" />
     <input v-model="password" type="password" placeholder="Password" />
