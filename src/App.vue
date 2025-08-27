@@ -1,12 +1,31 @@
 <script setup>
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import {auth} from "@/services/firebase.js"
-import {ref} from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 import NavBar from "@/components/NavBar.vue"
+import MobileNavMenu from "@/components/MobileNavMenu.vue"
 
 const user = ref()
 const email = ref("");
 const password = ref("");
+
+
+
+const isMobile = ref(window.innerWidth < 500)
+
+function updateWidth() {
+  isMobile.value = window.innerWidth < 500
+  console.log(isMobile.value)
+}
+
+onMounted(() => {
+  window.addEventListener('resize', updateWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWidth)
+})
+
 
 
 onAuthStateChanged(auth, (u) => {
@@ -30,7 +49,8 @@ async function logout() {
 
 <template>
   <body>
-    <NavBar/>
+    <NavBar v-if="!isMobile"/>
+    <MobileNavMenu v-else/>
     <RouterView />
     <input v-model="email" placeholder="Email" />
     <input v-model="password" type="password" placeholder="Password" />

@@ -13,6 +13,7 @@
     "lint": "eslint . --fix"
   },
   "dependencies": {
+    "@phosphor-icons/vue": "^2.2.1",
     "ant-design-vue": "^4.2.6",
     "axios": "^1.11.0",
     "browser-image-compression": "^2.0.2",
