@@ -22,6 +22,8 @@ const emit = defineEmits(['login', 'logout'])
 <style scoped>
 
 .container {
+  position: fixed;
+  z-index: 1;
   width: 100%;
   margin-top: 30px;
   display: flex;
