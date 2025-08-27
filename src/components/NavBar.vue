@@ -1,15 +1,16 @@
 <script setup>
 
+import MyRouterLink from "@/components/MyRouterLink.vue"
 </script>
 
 <template>
   <div class="container">
     <nav class="navbar">
-      <RouterLink :to="{ name: 'home' }">Home</RouterLink>
-      <RouterLink :to="{ name: 'photos' }">Photos</RouterLink>
-      <RouterLink :to="{ name: 'mentorship' }">Mentorship</RouterLink>
-      <RouterLink :to="{ name: 'applications' }">Application</RouterLink>
-      <RouterLink :to="{ name: 'about' }">About Us</RouterLink>
+      <MyRouterLink text="Home" to="home"/>
+      <MyRouterLink text="Photos" to="photos"/>
+      <MyRouterLink text="Mentorship" to="mentorship"/>
+      <MyRouterLink text="Applications" to="applications"/>
+      <MyRouterLink text="About" to="about"/>
     </nav>
   </div>
 
@@ -28,10 +29,12 @@
   width: 500px;
   border-radius: 25px;
   height: 50px;
-  background-color: #000000;
+  background-color: var(--orange);
+  backdrop-filter: blur(5px);
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 20px;
 }
 
 #logo {
