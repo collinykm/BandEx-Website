@@ -48,9 +48,9 @@ const showLoginModal = ref(false)
   <body>
     <NavBar v-if="!isMobile" @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
     <MobileNavMenu v-else  @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
+    <div v-if="!isMobile" style="height: 80px; width: 100%"></div>
     <LoginModal v-if="showLoginModal" @hide="showLoginModal=false"/>
     <RouterView :user="user" />
-  {{user}}
 
   </body>
 </template>

@@ -35,7 +35,7 @@ const emit = defineEmits(['login', 'logout'])
   padding-left: 20px;
   border-radius: 25px;
   height: 50px;
-  background-color: var(--orange);
+  background-color: rgba(245, 137, 24, 0.17);
   backdrop-filter: blur(5px);
   display: flex;
   align-items: center;

@@ -10,9 +10,9 @@
 
 .link-button {
   text-decoration: none;
-  color: var(--yellow);
+  color: var(--orange);
   transition: color 0.2s;
-  background-color: color-mix(in srgb, var(--orange) 95%, white);
+  /*background-color: color-mix(in srgb, var(--orange) 95%, white);*/
   padding: 8px;
   border-radius: 12px;
   border: none;
