@@ -2,6 +2,8 @@
 import { ref }  from "vue"
 import { RouterLink } from "vue-router"
 import {PhList, PhX} from "@phosphor-icons/vue"
+const props = defineProps(['user'])
+const emit = defineEmits(['login', 'logout'])
 const showMenu = ref(false)
 //Note: Change this later
 
@@ -14,17 +16,19 @@ const showMenu = ref(false)
   </div>
 
   <transition name="slide">
-    <div class="menu-container" v-if="showMenu">
+    <div class="menu-container" v-show="showMenu">
       <div class="close-button-container">
         <button id="close-button" @click="showMenu = !showMenu"><PhX :size="32" /></button>
       </div>
 
       <nav class="nav-list" @click="showMenu = !showMenu">
-        <RouterLink :to="{ name: 'home' }" class="router-link">Home</RouterLink>
-        <RouterLink :to="{ name: 'photos' }" class="router-link">Photos</RouterLink>
-        <RouterLink :to="{ name: 'mentorship' }" class="router-link">Mentorship</RouterLink>
-        <RouterLink :to="{ name: 'applications' }" class="router-link">Application</RouterLink>
-        <RouterLink :to="{ name: 'about' }" class="router-link">About Us</RouterLink>
+        <RouterLink :to="{ name: 'home' }" class="link-list">Home</RouterLink>
+        <RouterLink :to="{ name: 'photos' }" class="link-list">Photos</RouterLink>
+        <RouterLink :to="{ name: 'mentorship' }" class="link-list">Mentorship</RouterLink>
+        <RouterLink :to="{ name: 'applications' }" class="link-list">Application</RouterLink>
+        <RouterLink :to="{ name: 'about' }" class="link-list">About Us</RouterLink>
+        <a v-if="user == null" @click="$emit('login')" class="link-list">Member Login</a>
+        <a v-else @click="$emit('logout')" class="link-list">Logout</a>
       </nav>
 
     </div>
@@ -113,19 +117,6 @@ const showMenu = ref(false)
   border: none;
 }
 
-.router-link {
-  text-decoration: none;
-  color: var(--orange);
-  transition: color 0.2s;
-  padding: 12px;
-  width: 100%;
-}
 
-.router-link:hover {
-  color: var(--red);
-  background-color: color-mix(in srgb, var(--orange) 95%, white);
-  transition: padding 0.2s, color 0.5s, background-color 0.3s;
-  padding: 16px;
-}
 
 </style>

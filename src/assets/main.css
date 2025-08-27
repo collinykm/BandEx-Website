@@ -6,3 +6,55 @@
   --red: #cc5050;
   --body-text: #110a02;
 }
+
+
+.link-button {
+  text-decoration: none;
+  color: var(--yellow);
+  transition: color 0.2s;
+  background-color: color-mix(in srgb, var(--orange) 95%, white);
+  padding: 8px;
+  border-radius: 12px;
+  border: none;
+}
+
+.link-button:hover {
+  color: var(--red);
+  transition: padding 0.2s, color 0.5s;
+  padding: 10px;
+}
+
+.link-list {
+  text-decoration: none;
+  color: var(--orange);
+  transition: color 0.2s;
+  padding: 12px;
+  width: 100%;
+}
+
+.link-list:hover {
+  color: var(--red);
+  background-color: color-mix(in srgb, var(--orange) 95%, white);
+  transition: padding 0.2s, color 0.5s, background-color 0.3s;
+  padding: 16px;
+}
+
+a {
+  cursor: pointer;
+}
+
+.input {
+  border-radius: 10px;
+  outline: 2px solid #FEBF00;
+  border: 0;
+  background-color: #e2e2e2;
+  outline-offset: 3px;
+  padding: 10px 1rem;
+  transition: 0.25s;
+  margin: 6px;
+}
+
+.input:focus {
+  outline-offset: 5px;
+  background-color: #fff
+}

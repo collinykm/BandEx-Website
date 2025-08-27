@@ -1,6 +1,7 @@
 <script setup>
-
 import MyRouterLink from "@/components/MyRouterLink.vue"
+const props = defineProps(['user'])
+const emit = defineEmits(['login', 'logout'])
 </script>
 
 <template>
@@ -11,6 +12,8 @@ import MyRouterLink from "@/components/MyRouterLink.vue"
       <MyRouterLink text="Mentorship" to="mentorship"/>
       <MyRouterLink text="Applications" to="applications"/>
       <MyRouterLink text="About" to="about"/>
+      <a v-if="user == null" @click="$emit('login')" class="link-button">Member Login</a>
+      <a v-else @click="$emit('logout')" class="link-button">Logout</a>
     </nav>
   </div>
 
@@ -26,7 +29,8 @@ import MyRouterLink from "@/components/MyRouterLink.vue"
 }
 
 .navbar {
-  width: 500px;
+  padding-right: 20px;
+  padding-left: 20px;
   border-radius: 25px;
   height: 50px;
   background-color: var(--orange);

@@ -21,7 +21,7 @@ defineProps({
 <template>
   <RouterLink
     :to="{ name: to }"
-    class="router-link"
+    class="link-button"
     :style="{ fontSize }"
   >
     {{ text }}
@@ -29,19 +29,5 @@ defineProps({
 </template>
 
 <style scoped>
-.router-link {
-  text-decoration: none;
-  color: var(--yellow);
-  transition: color 0.2s;
-  background-color: color-mix(in srgb, var(--orange) 95%, white);
-  padding: 8px;
-  border-radius: 12px;
-}
 
-.router-link:hover {
-  color: var(--red);
-  transition: padding 0.2s, color 0.5s;
-
-  padding: 10px;
-}
 </style>
