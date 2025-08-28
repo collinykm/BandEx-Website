@@ -48,7 +48,7 @@ async function login() {
 
   <div class="modal-container" @click.self="$emit('hide')">
     <div class="modal-content" :style="isMobile? { width: '100%', height: '100%'} : { width: '500px', height: '400px', 'border-radius': '20px'}">
-      <CloseButton @close="$emit('close')" />
+      <CloseButton @close="$emit('hide')" />
       <h1>BandEx Member Sign in</h1>
       <input class="input" v-model="email" placeholder="Email" />
       <input class="input" v-model="password" type="password" placeholder="Password" />
@@ -63,6 +63,20 @@ async function login() {
 </template>
 
 <style scoped>
+@media (max-width: 600px) {
+  h1 {
+    color: var(--primary);
+    margin-top: 20%;
+  }
+}
+h1 {
+  color: var(--primary);
+  font-size: 1.8rem;
+}
+
+
+
+
 .link {
   font-size: 0.8rem;
   margin: 0;
@@ -90,6 +104,7 @@ async function login() {
   justify-content: start;
   align-items: center;
   gap: 16px;
+  padding: 20px;
 }
 
 .modal-container {

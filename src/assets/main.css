@@ -7,6 +7,17 @@
   --body-text: #110a02;
 }
 
+
+@font-face {
+  font-family: "Gistesy";
+  src: url('@/assets/fonts/Gistesy.ttf');
+}
+
+@font-face {
+  font-family: "RubikOne";
+  src: url('@/assets/fonts/RubikOne-Regular.ttf');
+}
+
 body {
   font-family: "Solway", serif;
   background-color: var(--background);
@@ -66,7 +77,7 @@ a {
 
 h2 {
   color: var(--primary);
-  font-size: 3rem;
+  font-size: 2.5rem;
   margin: 40px;
 }
 

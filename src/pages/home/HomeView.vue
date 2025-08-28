@@ -26,11 +26,11 @@ const showNewPostModal = ref(false)
     </div>
 
     <section class="content">
-      <h2>Upcoming Events</h2>
+      <h2>UPCOMING EVENTS</h2>
       <div class="events-container upcoming-event" v-for="post in upcomingPosts" :key="post.id">
         <EventCard :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :withYear="false" />
       </div>
-      <h2>Past Events</h2>
+      <h2>PAST EVENTS</h2>
       <div class="events-container expired-event" v-for="post in expiredPosts" :key="post.id">
         <EventCard :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :withYear="true" />
       </div>
@@ -50,9 +50,14 @@ main {
 h1 {
   position: relative; /* relative to hero */
   color: var(--primary);
-  font-family: "Imperial Script", cursive;
+  font-family: "Gistesy", cursive;
   font-size: 8rem;
   text-align: center;
+}
+
+h2 {
+  margin-left: 0;
+  font-family: "RubikOne", sans-serif;
 }
 
 
@@ -68,14 +73,22 @@ h1 {
   margin-right: calc((100% - clamp(300px, 80%, 1000px))/2 + 50px) ;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 600px) {
   .create-button {
     margin-right: 20px;
+  }
+  h1 {
+    font-size: 5rem;
+    margin-top: 40px;
+  }
+  h2 {
+    font-size: 2rem;
+    margin-left: 10px;
   }
 }
 
 .content {
-  width:clamp(300px, 80%, 1000px);
+  width:clamp(300px, 95%, 1000px);
 }
 
 .events-container {

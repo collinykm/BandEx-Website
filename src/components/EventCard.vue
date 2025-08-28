@@ -21,9 +21,9 @@ function formatDate(date, withYear) {
 <style scoped>
 
 .card{
-  width: min(80%, 700px);
+  width: min(95%, 700px);
   background-color: var(--secondary);
-  padding: 40px;
+  padding: min(40px, 6%);
   border-radius: 30px;
   margin: 20px;
 }
@@ -51,6 +51,16 @@ function formatDate(date, withYear) {
 .message{
   margin: 20px;
 }
+
+@media (max-width: 600px) {
+  .message{
+    margin: 20px 0 0;
+  }
+  .title {
+    font-size: 2rem;
+  }
+}
+
 
 .date-posted-container{
   display: flex;

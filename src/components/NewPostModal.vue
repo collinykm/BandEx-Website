@@ -99,7 +99,7 @@ async function handleSubmit() {
 <template>
   <Teleport to="body">
     <div class="modal-container" @click.self="$emit('close')">
-      <div class="modal-content" :style="isMobile? { width: '100%', height: '100%'} : { width: '600px', 'border-radius': '30px'}">
+      <div class="modal-content" :style="isMobile? { width: '100vw', height: '100%'} : { width: '600px', 'border-radius': '30px'}">
         <CloseButton @close="$emit('close')" />
         <h2>New Post</h2>
 
@@ -180,7 +180,7 @@ h2{
 }
 
 .input {
-  width: 450px;
+  width: min(450px, 80%);
   resize: none;
 }
 
