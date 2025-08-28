@@ -1,21 +1,21 @@
 :root {
   --background: #f5e4b0;
-  --blue-accent: #45b7ca;
-  --orange: #f58918;
-  --yellow: #f7c40b;
-  --red: #cc5050;
+  --accent2: #45b7ca;
+  --primary: #f58918;
+  --secondary: #f7c40b;
+  --accent1: #cc5050;
   --body-text: #110a02;
 }
 
 body {
-  font-family: "Nunito", sans-serif;
+  font-family: "Solway", serif;
   background-color: var(--background);
 }
 
 
 .link {
   text-decoration: none;
-  color: var(--orange);
+  color: var(--primary);
   transition: color 0.2s;
   /*background-color: color-mix(in srgb, var(--orange) 95%, white);*/
   padding: 8px;
@@ -24,22 +24,22 @@ body {
 }
 
 .link:hover {
-  color: var(--red);
+  color: var(--accent1);
   transition: padding 0.2s, color 0.5s;
   padding: 10px;
 }
 
 .link-list {
   text-decoration: none;
-  color: var(--orange);
+  color: var(--primary);
   transition: color 0.2s;
   padding: 12px;
   width: 100%;
 }
 
 .link-list:hover {
-  color: var(--red);
-  background-color: color-mix(in srgb, var(--orange) 95%, white);
+  color: var(--accent1);
+  background-color: color-mix(in srgb, var(--primary) 95%, white);
   transition: padding 0.2s, color 0.5s, background-color 0.3s;
   padding: 16px;
 }
@@ -62,4 +62,31 @@ a {
 .input:focus {
   outline-offset: 5px;
   background-color: #fff
+}
+
+h2 {
+  color: var(--primary);
+  font-size: 3rem;
+  margin: 40px;
+}
+
+p{
+  margin: 0;
+  display: block;
+}
+
+.button {
+  text-decoration: none;
+  color: var(--body-text);
+  transition: color 0.2s;
+  background-color: var(--primary);
+  padding: 8px 10px;
+  border-radius: 12px;
+  border: none;
+}
+
+.button:hover {
+  color: var(--accent1);
+  transition: padding 0.2s, color 0.5s;
+  padding: 10px;
 }

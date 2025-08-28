@@ -1,9 +1,9 @@
 <script setup>
-import NewPost from "@/pages/home/NewPost.vue";
 import {onMounted, ref} from "vue"
 defineProps(['user'])
 import getPosts from "@/services/getPosts.js"
 import EventCard from "@/components/EventCard.vue"
+import NewPostModal from "@/components/NewPostModal.vue"
 const upcomingPosts = ref(null)
 const expiredPosts = ref(null)
 
@@ -36,7 +36,7 @@ const showNewPostModal = ref(false)
       </div>
     </section>
   </main>
-  <NewPost v-if="showNewPostModal"/>
+  <NewPostModal v-if="showNewPostModal" @close="showNewPostModal = false"/>
 </template>
 
 <style scoped>
@@ -49,16 +49,10 @@ main {
 
 h1 {
   position: relative; /* relative to hero */
-  color: var(--orange);
+  color: var(--primary);
   font-family: "Imperial Script", cursive;
   font-size: 8rem;
   text-align: center;
-}
-
-h2 {
-  color: var(--orange);
-  font-size: 3rem;
-  margin: 40px;
 }
 
 
@@ -69,7 +63,7 @@ h2 {
 }
 
 .create-button {
-  background-color: var(--orange);
+  background-color: var(--primary);
   color: var(--body-text);
   margin-right: calc((100% - clamp(300px, 80%, 1000px))/2 + 50px) ;
 }

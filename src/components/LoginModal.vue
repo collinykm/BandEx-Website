@@ -3,6 +3,7 @@ import {onMounted, onUnmounted, ref} from "vue"
 import {PhX} from "@phosphor-icons/vue"
 import {signInWithEmailAndPassword} from "firebase/auth"
 import {auth} from "@/services/firebase.js"
+import CloseButton from "@/components/CloseButton.vue"
 
 const isMobile = ref(window.innerWidth < 600)
 
@@ -47,9 +48,7 @@ async function login() {
 
   <div class="modal-container" @click.self="$emit('hide')">
     <div class="modal-content" :style="isMobile? { width: '100%', height: '100%'} : { width: '500px', height: '400px', 'border-radius': '20px'}">
-      <div class="close-button-container">
-        <button id="close-button" @click="$emit('hide')"><PhX :size="32" /></button>
-      </div>
+      <CloseButton @close="$emit('close')" />
       <h1>BandEx Member Sign in</h1>
       <input class="input" v-model="email" placeholder="Email" />
       <input class="input" v-model="password" type="password" placeholder="Password" />

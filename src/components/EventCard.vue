@@ -22,13 +22,13 @@ function formatDate(date, withYear) {
 
 .card{
   width: min(80%, 700px);
-  background-color: var(--yellow);
+  background-color: var(--secondary);
   padding: 50px;
   border-radius: 30px;
 }
 
 .title {
-  color: var(--blue-accent);
+  color: var(--accent2);
   font-size: 3rem;
 }
 
