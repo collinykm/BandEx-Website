@@ -18,6 +18,10 @@
   src: url('@/assets/fonts/RubikOne-Regular.ttf');
 }
 
+#app {
+  height: 100%;
+}
+
 body {
   font-family: "Solway", serif;
   background-color: var(--background);

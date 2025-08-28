@@ -19,7 +19,7 @@ const showNewPostModal = ref(false)
 </script>
 
 <template>
-  <main>
+  <div class="view-container">
     <h1>Semiahmoo BandEx</h1>
     <div class="button-container">
       <button class="link create-button" v-if="user!=null" @click="showNewPostModal=true">+ Create new post</button>
@@ -35,12 +35,12 @@ const showNewPostModal = ref(false)
         <EventCard :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :withYear="true" />
       </div>
     </section>
-  </main>
+  </div>
   <NewPostModal v-if="showNewPostModal" @close="showNewPostModal = false"/>
 </template>
 
 <style scoped>
-main {
+.view-container {
   display: flex;
   flex-direction: column;
   justify-content: start;

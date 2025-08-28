@@ -5,6 +5,7 @@ import { ref, onMounted, onUnmounted } from "vue"
 import NavBar from "@/components/NavBar.vue"
 import MobileNavMenu from "@/components/MobileNavMenu.vue"
 import LoginModal from "@/components/LoginModal.vue"
+import Footer from "@/components/Footer.vue"
 
 const user = ref()
 
@@ -46,13 +47,29 @@ const showLoginModal = ref(false)
 
 <template>
   <body>
-    <NavBar v-if="!isMobile" @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
-    <MobileNavMenu v-else  @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
-    <div :style="{height: isMobile ? '30px' : '130px', width: '100%'}"></div>
-    <LoginModal v-if="showLoginModal" @hide="showLoginModal=false"/>
-    <RouterView :user="user" />
+    <header>
+      <NavBar v-if="!isMobile" @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
+      <MobileNavMenu v-else  @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
+      <div :style="{height: isMobile ? '30px' : '130px', width: '100%'}"></div>
+    </header>
+    <main>
+      <LoginModal v-if="showLoginModal" @hide="showLoginModal=false"/>
+      <RouterView :user="user" />
+    </main>
+    <footer>
+      <Footer/>
+    </footer>
+
 
   </body>
 </template>
 
-<style scoped></style>
+<style scoped>
+body {
+  display: flex;
+  flex-direction: column;
+}
+main{
+  flex: 1;
+}
+</style>
