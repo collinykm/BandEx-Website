@@ -12,7 +12,7 @@ function formatDate(date, withYear) {
 <template>
   <div class="card">
     <h3 class="title">{{ title }}</h3>
-    <img :src="imageURL" alt="poster" class="image">
+    <div class="img-wrapper"><img :src="imageURL" alt="poster" class="image"></div>
     <p class="message">{{ message }}</p>
     <div class="date-posted-container"><label class="date-posted">{{ formatDate(createdAt, withYear) }}</label></div>
   </div>
@@ -23,8 +23,9 @@ function formatDate(date, withYear) {
 .card{
   width: min(80%, 700px);
   background-color: var(--secondary);
-  padding: 50px;
+  padding: 40px;
   border-radius: 30px;
+  margin: 20px;
 }
 
 .title {
@@ -32,9 +33,18 @@ function formatDate(date, withYear) {
   font-size: 3rem;
 }
 
-.image{
+.img-wrapper{
   width: 100%;
-  height: auto;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.image{
+  height: 100%;
+  width: auto;
   border-radius: 30px;
 }
 
