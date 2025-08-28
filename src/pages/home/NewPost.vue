@@ -18,16 +18,21 @@ async function handleSubmit() {
   isSubmitting.value = true
 
   //handling upload
-  const imageURL = await uploadFile(file.value)
-  console.log(imageURL)
+  try {
+    const imageURL = await uploadFile(file.value)
+    console.log(imageURL)
 
-  await newPost({
-    title: title.value,
-    message: message.value,
-    postDate: new Date(),
-    imageURL: imageURL,
-    expirationDate: expirationDate.value,
-  })
+    await newPost({
+      title: title.value,
+      message: message.value,
+      postDate: new Date(),
+      imageURL: imageURL,
+      expirationDate: expirationDate.value,
+    })
+  } catch (error) {
+    console.log(error)
+  }
+
 
   isSubmitting.value = false
 }

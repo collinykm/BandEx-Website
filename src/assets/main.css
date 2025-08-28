@@ -7,8 +7,13 @@
   --body-text: #110a02;
 }
 
+body {
+  font-family: "Nunito", sans-serif;
+  background-color: var(--background);
+}
 
-.link-button {
+
+.link {
   text-decoration: none;
   color: var(--orange);
   transition: color 0.2s;
@@ -18,7 +23,7 @@
   border: none;
 }
 
-.link-button:hover {
+.link:hover {
   color: var(--red);
   transition: padding 0.2s, color 0.5s;
   padding: 10px;

@@ -42,7 +42,7 @@ function openFileDialog() {
     :class="{ 'dragging': isDragging }"
   >
     <p>Drag & drop a file here, or click to select</p>
-    <input type="file" ref="fileInput" @change="onFileChange" accept="image/png, image/jpeg, image/heic" hidden />
+    <input type="file" ref="fileInput" @change="onFileChange" accept="image/png, image/jpeg" hidden />
   </div>
 </template>
 

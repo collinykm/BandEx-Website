@@ -21,7 +21,7 @@ defineProps({
 <template>
   <RouterLink
     :to="{ name: to }"
-    class="link-button"
+    class="link"
     :style="{ fontSize }"
   >
     {{ text }}

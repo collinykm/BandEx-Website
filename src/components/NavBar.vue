@@ -12,8 +12,8 @@ const emit = defineEmits(['login', 'logout'])
       <MyRouterLink text="Mentorship" to="mentorship"/>
       <MyRouterLink text="Applications" to="applications"/>
       <MyRouterLink text="About" to="about"/>
-      <a v-if="user == null" @click="$emit('login')" class="link-button">Member Login</a>
-      <a v-else @click="$emit('logout')" class="link-button">Logout</a>
+      <a v-if="user == null" @click="$emit('login')" class="link">Member Login</a>
+      <a v-else @click="$emit('logout')" class="link">Logout</a>
     </nav>
   </div>
 

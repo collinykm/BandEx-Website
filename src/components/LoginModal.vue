@@ -53,7 +53,7 @@ async function login() {
       <h1>BandEx Member Sign in</h1>
       <input class="input" v-model="email" placeholder="Email" />
       <input class="input" v-model="password" type="password" placeholder="Password" />
-      <button class="link-button" @click="login" >Login</button>
+      <button class="link" @click="login" >Login</button>
       <Transition>
         <a-alert v-if="!validLoginInfo" message="Invalid email or password" type="error" />
       </Transition>
@@ -64,7 +64,7 @@ async function login() {
 </template>
 
 <style scoped>
-.link-button {
+.link {
   font-size: 0.8rem;
   margin: 0;
 }
@@ -110,7 +110,7 @@ async function login() {
   width: 300px;
 }
 
-.link-button {
+.link {
   padding: 16px;
   font-size: 1.1rem;
 }
