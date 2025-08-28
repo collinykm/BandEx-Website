@@ -73,13 +73,11 @@ async function handleSubmit() {
   //handling upload
   try {
     //require an expiration date, and message
-
-
-
-
-    const imageURL = await uploadFile(file.value)
-    console.log(imageURL)
-    console.log(`Date rn: ${new Date()}`)
+    let imageURL = ""
+    if (file.value != null) {
+      imageURL = await uploadFile(file.value)
+      console.log(imageURL)
+    }
 
     await newPost({
       title: title.value,

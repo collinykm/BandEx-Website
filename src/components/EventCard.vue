@@ -12,7 +12,7 @@ function formatDate(date, withYear) {
 <template>
   <div class="card">
     <h3 class="title">{{ title }}</h3>
-    <div class="img-wrapper"><img :src="imageURL" alt="poster" class="image"></div>
+    <div class="img-wrapper" v-if="imageURL !== ''"><img :src="imageURL" alt="poster" class="image"></div>
     <p class="message">{{ message }}</p>
     <div class="date-posted-container"><label class="date-posted">{{ formatDate(createdAt, withYear) }}</label></div>
   </div>
