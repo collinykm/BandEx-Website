@@ -53,11 +53,11 @@ function resetEditPostData() {
     <section class="content">
       <h2>UPCOMING EVENTS</h2>
       <div class="events-container upcoming-event" v-for="post in upcomingPosts" :key="post.id">
-        <EventCard :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="false" @edit="editPost"/>
+        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="false" @edit="editPost"/>
       </div>
       <h2>PAST EVENTS</h2>
       <div class="events-container expired-event" v-for="post in expiredPosts" :key="post.id">
-        <EventCard :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost"/>
+        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost"/>
       </div>
     </section>
   </div>

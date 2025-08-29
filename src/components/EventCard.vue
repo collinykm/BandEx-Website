@@ -1,7 +1,7 @@
 <script setup>
 import {PhPencil, PhTrash} from "@phosphor-icons/vue"
 
-const props = defineProps(['id', 'title', 'message', 'imageURL', 'createdAt', 'expirationDate', 'withYear'])
+const props = defineProps(['editable', 'id', 'title', 'message', 'imageURL', 'createdAt', 'expirationDate', 'withYear'])
 const emit = defineEmits(['edit', 'delete'])
 
 function formatDate(date, withYear) {
@@ -16,7 +16,7 @@ function formatDate(date, withYear) {
   <div class="card">
     <div class="header">
       <h3 class="title">{{ title }}</h3>
-      <div class="buttons">
+      <div class="buttons" v-if="editable">
         <button class="icon-button edit" @click="$emit('edit', {
         id: id,
         title: title,
