@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from "vue"
+import timedToggle from "@/utils/timedToggle.js"
 const emit = defineEmits(["fileChanged"])
 const fileInput = ref(null)
 const file = ref(null)
@@ -25,21 +26,14 @@ function onDrop(e) {
   if (e.dataTransfer.files.length === 1) {
     const allowedFileTypes = ["image/png", "image/jpeg"];
     if (!allowedFileTypes.includes(e.dataTransfer.files[0].type)) {
-      error("File must be png or jpg only")
+      timedToggle(errorMsg, "File must be png or jpg only", null)
       return
     }
-
     file.value = e.dataTransfer.files[0]
     emit("fileChanged", file.value)
   } else {
-    error("Only one image allowed")
+    timedToggle(errorMsg, "Only one image allowed", null)
   }
-}
-
-async function error(msg) {
-  errorMsg.value = msg
-  await new Promise(resolve => setTimeout(resolve, 3000))
-  errorMsg.value = null
 }
 
 // let user click the box to open file chooser

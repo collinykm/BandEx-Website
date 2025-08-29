@@ -9,7 +9,7 @@ const props = defineProps(['size'])
 
 <template>
   <div class="close-button-container">
-    <button id="close-button" @click="$emit('close')"><PhX :size="size ?? 32" /></button>
+    <button class="icon-button" @click="$emit('close')"><PhX :size="size ?? 32" /></button>
   </div>
 </template>
 
@@ -21,14 +21,6 @@ const props = defineProps(['size'])
 
 }
 
-#close-button {
-  background: none;
-  border: none;
-  transition: transform 0.2s ease;
-  cursor: pointer;
-}
-#close-button:hover {
-  transform: scale(1.1);
-}
+
 
 </style>

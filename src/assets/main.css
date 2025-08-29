@@ -105,3 +105,13 @@ p{
   transition: padding 0.2s, color 0.5s;
   padding: 10px;
 }
+
+.icon-button {
+  background: none;
+  border: none;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+.icon-button:hover {
+  transform: scale(1.1);
+}

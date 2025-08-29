@@ -15,6 +15,31 @@ getPosts().then((posts) => {
 
 const showNewPostModal = ref(false)
 
+const editPostData = ref({
+  id: "",
+  title: "",
+  message: "",
+  imageURL: "",
+  expirationDate: null,
+})
+
+function editPost(post) {
+  editPostData.value.id = post.id
+  editPostData.value.title = post.title
+  editPostData.value.message = post.message
+  editPostData.value.imageURL = post.imageURL
+  editPostData.value.expirationDate = post.expirationDate
+  showNewPostModal.value = true
+}
+
+function resetEditPostData() {
+  editPostData.value.id = null
+  editPostData.value.title = null
+  editPostData.value.message = null
+  editPostData.value.file = null
+  editPostData.value.imageURL = ""
+  editPostData.value.expirationDate = null
+}
 
 </script>
 
@@ -22,21 +47,21 @@ const showNewPostModal = ref(false)
   <div class="view-container">
     <h1>Semiahmoo BandEx</h1>
     <div class="button-container">
-      <button class="link create-button" v-if="user!=null" @click="showNewPostModal=true">+ Create new post</button>
+      <button class="link create-button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ Create new post</button>
     </div>
 
     <section class="content">
       <h2>UPCOMING EVENTS</h2>
       <div class="events-container upcoming-event" v-for="post in upcomingPosts" :key="post.id">
-        <EventCard :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :withYear="false" />
+        <EventCard :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="false" @edit="editPost"/>
       </div>
       <h2>PAST EVENTS</h2>
       <div class="events-container expired-event" v-for="post in expiredPosts" :key="post.id">
-        <EventCard :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :withYear="true" />
+        <EventCard :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost"/>
       </div>
     </section>
   </div>
-  <NewPostModal v-if="showNewPostModal" @close="showNewPostModal = false"/>
+  <NewPostModal v-if="showNewPostModal" @close="showNewPostModal = false" :postData="editPostData"/>
 </template>
 
 <style scoped>

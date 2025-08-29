@@ -1,17 +1,20 @@
 <script setup>
-import {onMounted, onUnmounted, ref} from "vue"
+import {computed, onMounted, onUnmounted, ref} from "vue"
 import DragUploadBox from "@/components/DragUploadBox.vue"
-import newPost from "@/services/newPost.js"
+import {newPost, editPost} from "@/services/sendPost.js"
 import uploadFile from "@/services/uploadFile.js"
-import {PhX} from "@phosphor-icons/vue"
 import CloseButton from "@/components/CloseButton.vue"
+import dayjs from "dayjs"
+import Loader from "@/components/Loader.vue"
+import clearImage from "@/services/clearImage.js"
+import timedToggle from "@/utils/timedToggle.js"
 
+const props = defineProps(['postData'])
 const emit = defineEmits(["close"])
 
 const isMobile = ref(window.innerWidth < 600)
 function updateWidth() {
   isMobile.value = window.innerWidth < 600
-  console.log(isMobile.value)
 }
 onMounted(() => {
   document.body.style.overflow = "hidden"
@@ -22,7 +25,7 @@ onMounted(() => {
     .trim()
   const font = getComputedStyle(document.body).getPropertyValue("font-family")
 
-
+  //for the ant design date picker
   theme.value = {
     token: {
       colorPrimary: primary,
@@ -41,28 +44,29 @@ onUnmounted(() => {
 const theme = ref({})
 
 
-
-
-const title = ref("")
-const message = ref("")
-const expirationDate = ref(null)
+const id = props.postData.id
+const isEditing = ref(props.postData.expirationDate != null)
+const title = ref(props.postData.title)
+const message = ref(props.postData.message)
+const imageURL = ref(props.postData.imageURL)
+console.log(imageURL.value != null, `123${imageURL.value}456`)
+const hasImage = computed(() => imageURL.value !== "")
+const originalImageURL = props.postData.imageURL
+const expirationDate = ref(isEditing.value ? dayjs(props.postData.expirationDate) : null)
 
 
 const file = ref(null)
 
 const confirm = ref(0)
-const postText = ref("Post")
+const postText = ref(isEditing.value ? "Publish Changes" : "Post")
 const errorMsg = ref(null)
 const isSubmitting = ref(false)
+//Region: submitting section
 async function handleSubmit() {
   if (message.value === "" || expirationDate.value == null) {
-    errorMsg.value = "Must have a message and expiration date"
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    errorMsg.value = null
+    timedToggle(errorMsg, "Must have a message and expiration date", null)
     return
   }
-
-
   if (confirm.value === 0) {
     confirm.value = 1
     postText.value = "Confirm?"
@@ -70,29 +74,67 @@ async function handleSubmit() {
   }
   isSubmitting.value = true
 
+  if (!isEditing.value) {
+    await createNewPost()
+  } else {
+    await postEditedPost()
+  }
+
+  isSubmitting.value = false
+ // location.reload()
+}
+//Region: submit new post
+async function createNewPost() {
   //handling upload
   try {
     //require an expiration date, and message
-    let imageURL = ""
+    let url = ""
     if (file.value != null) {
-      imageURL = await uploadFile(file.value)
-      console.log(imageURL)
+      url = await uploadFile(file.value)
+      console.log(`image url after uploading: ${url}`)
     }
 
     await newPost({
       title: title.value,
       message: message.value,
       createdAt: new Date(),
-      imageURL: imageURL,
+      imageURL: url,
       expirationDate: expirationDate.value,
     })
   } catch (error) {
     console.log(error)
   }
-  isSubmitting.value = false
-  location.reload()
 }
 
+//Region: submit edited post
+async function postEditedPost() {
+  try {
+    //first thing delete image if user removed it
+    let url = ""
+    if (imageURL.value === "") {
+      console.log("gonna start clearing image")
+      await clearImage(originalImageURL)
+      console.log("cleared image")
+      if (file.value != null) {
+        url = await uploadFile(file.value)
+        console.log(`image url after uploading: ${url}`)
+      }
+    }
+
+    //uploading image
+    await editPost({
+      id: id,
+      title: title.value,
+      message: message.value,
+      imageURL: url,
+      expirationDate: expirationDate.value,
+    })
+
+  } catch (error) {
+    console.log(error)
+  }
+
+}
 
 </script>
 
@@ -101,19 +143,29 @@ async function handleSubmit() {
     <div class="modal-container" @click.self="$emit('close')">
       <div class="modal-content" :style="isMobile? { width: '100vw', height: '100%'} : { width: '600px', 'border-radius': '30px'}">
         <CloseButton @close="$emit('close')" />
-        <h2>New Post</h2>
+        <h2>{{isEditing ? "Edit Post" :  "New Post" }}</h2>
 
         <input placeholder="Title" v-model="title" class="input"/>
         <textarea placeholder="Message" v-model="message" class="input" id="message" rows="6"/>
 
-        <div class="fileDropContainer">
+        <!--Note: if editing photo and there already is an image -->
+        <div class="image-container" v-if="hasImage">
+          <div class="img-wrapper"><img :src="originalImageURL" alt="poster" class="image"></div>
+          <!--Note: resetting imageURL NOT originalImageURL-->
+          <button class="button" @click="imageURL = ''">Clear Image</button>
+        </div>
+
+        <!--Note: File drop a new photo -->
+
+        <div class="fileDropContainer" v-else>
           <DragUploadBox @fileChanged="(newFile) => file = newFile"/>
           <div v-if="file">
             <p>Selected file: {{ file.name }}</p>
           </div>
-          <button class="button clearButton" @click="() => file = null">Clear file</button>
+          <button class="button clearButton" @click="file = null">Clear file</button>
         </div>
 
+        <!--Note: Date picker -->
         <div class="date-time-picker">
           <div class="expiration">
             <label>Expiration Date</label>
@@ -124,7 +176,6 @@ async function handleSubmit() {
               <a-button type="primary" class="span">?</a-button>
             </a-popover>
           </div>
-
           <a-config-provider :theme="theme">
             <a-date-picker v-model:value="expirationDate" class="date-picker"/>
           </a-config-provider>
@@ -137,9 +188,7 @@ async function handleSubmit() {
         </Transition>
 
         <!-- add a spinning thing that appears when isSubmitting is true  -->
-        <svg v-if="isSubmitting" viewBox="25 25 50 50" class="loading">
-          <circle r="20" cy="50" cx="50"></circle>
-        </svg>
+        <Loader v-if="isSubmitting"/>
       </div>
     </div>
   </Teleport>
@@ -148,9 +197,21 @@ async function handleSubmit() {
 </template>
 
 <style scoped>
+.modal-container {
+  position: fixed;
+  z-index: 3;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(164, 164, 164, 0.54);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 0;
+}
+
 
 .modal-content {
-  position: fixed;
   background-color: var(--background);
   display: flex;
   flex-direction: column;
@@ -159,22 +220,9 @@ async function handleSubmit() {
   gap: 16px;
   padding: 30px;
   border: 4px solid var(--secondary);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
 }
-
-.modal-container {
-  position: fixed;
-  z-index: 3;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(164, 164, 164, 0.54);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 h2{
   margin: 0 0 10px;
 }
@@ -182,6 +230,31 @@ h2{
 .input {
   width: min(450px, 80%);
   resize: none;
+  flex-shrink: 0;
+}
+
+.image-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.img-wrapper{
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.image{
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
 }
 
 .fileDropContainer {
