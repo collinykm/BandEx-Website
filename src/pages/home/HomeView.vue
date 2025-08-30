@@ -6,14 +6,30 @@ import EventCard from "@/components/EventCard.vue"
 import NewPostModal from "@/components/NewPostModal.vue"
 import clearImage from "@/services/clearImage.js"
 import deletePost from "@/services/deletePost.js"
-const upcomingPosts = ref(null)
-const expiredPosts = ref(null)
+import Loader from "@/components/Loader.vue"
+import getMorePosts from "@/services/getMorePosts.js"
+const upcomingPosts = ref([])
+const expiredPosts = ref([])
 
 getPosts().then((posts) => {
   upcomingPosts.value = posts.upcoming;
   expiredPosts.value = posts.expired;
 })
 
+const isLoadingMorePosts = ref(false)
+async function loadMore() {
+  isLoadingMorePosts.value = true
+  const currentPostCount = upcomingPosts.value.length + expiredPosts.value.length;
+  try {
+    const newPosts = await getMorePosts(currentPostCount, 5)
+    console.log(`new posts found: ${newPosts}`)
+    expiredPosts.value.push(...newPosts)
+  } catch (error) {
+    console.log(error)
+  }
+  isLoadingMorePosts.value = false
+
+}
 
 const showNewPostModal = ref(false)
 
@@ -53,6 +69,7 @@ async function delPost(id, imageURL) {
   } catch (err) {
     console.error(err)
   }
+  location.reload()
 }
 </script>
 
@@ -72,6 +89,11 @@ async function delPost(id, imageURL) {
       <div class="events-container expired-event" v-for="post in expiredPosts" :key="post.id">
         <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost" @delete="delPost"/>
       </div>
+      <div class="load-more" style="display: flex; justify-content: center; margin-bottom: 20px;">
+        <button class="button" @click="loadMore">Load More</button>
+        <Loader v-if="isLoadingMorePosts" />
+      </div>
+
     </section>
   </div>
   <NewPostModal v-if="showNewPostModal" @close="showNewPostModal = false" :postData="editPostData"/>

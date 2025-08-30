@@ -292,7 +292,6 @@ h2{
 
 #error {
   color: var(--accent1);
-  margin-top: 10px;
 }
 
 .dragging{
