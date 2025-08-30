@@ -1,13 +1,13 @@
 <script setup>
 import {onMounted, ref} from "vue"
 defineProps(['user'])
-import getPosts from "@/services/getPosts.js"
+import getPosts from "@/services/posts/getPosts.js"
 import EventCard from "@/components/EventCard.vue"
 import NewPostModal from "@/components/NewPostModal.vue"
-import clearImage from "@/services/clearImage.js"
-import deletePost from "@/services/deletePost.js"
+import clearImage from "@/services/posts/clearImage.js"
+import deletePost from "@/services/posts/deletePost.js"
 import Loader from "@/components/Loader.vue"
-import getMorePosts from "@/services/getMorePosts.js"
+import getMorePosts from "@/services/posts/getMorePosts.js"
 const upcomingPosts = ref([])
 const expiredPosts = ref([])
 

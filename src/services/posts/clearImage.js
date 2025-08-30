@@ -20,6 +20,7 @@ function getFilePathFromUrl(url) {
     return decodeURIComponent(pathPart);
   } catch (e) {
     console.error("Invalid Firebase Storage URL:", url);
+    console.error(e);
     return null;
   }
 }

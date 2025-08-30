@@ -1,12 +1,12 @@
 <script setup>
 import {computed, onMounted, onUnmounted, ref} from "vue"
 import DragUploadBox from "@/components/DragUploadBox.vue"
-import {newPost, editPost} from "@/services/sendPost.js"
-import uploadFile from "@/services/uploadFile.js"
+import {newPost, editPost} from "@/services/posts/sendPost.js"
+import uploadFile from "@/services/posts/uploadFile.js"
 import CloseButton from "@/components/CloseButton.vue"
 import dayjs from "dayjs"
 import Loader from "@/components/Loader.vue"
-import clearImage from "@/services/clearImage.js"
+import clearImage from "@/services/posts/clearImage.js"
 import timedToggle from "@/utils/timedToggle.js"
 
 const props = defineProps(['postData'])
