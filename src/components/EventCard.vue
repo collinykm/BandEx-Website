@@ -1,8 +1,28 @@
 <script setup>
 import {PhPencil, PhTrash} from "@phosphor-icons/vue"
+import {onMounted, ref} from "vue"
+defineProps(['editable', 'id', 'title', 'message', 'imageURL', 'createdAt', 'expirationDate', 'withYear'])
+defineEmits(['edit', 'delete'])
 
-const props = defineProps(['editable', 'id', 'title', 'message', 'imageURL', 'createdAt', 'expirationDate', 'withYear'])
-const emit = defineEmits(['edit', 'delete'])
+const theme = ref()
+onMounted(() => {
+  const primary = getComputedStyle(document.documentElement).getPropertyValue('--primary')
+  const font = getComputedStyle(document.body).getPropertyValue("font-family")
+
+  //for the ant design popover confirm thing for the delete button
+  theme.value = {
+    token: {
+      colorPrimary: primary,
+      colorInfo: primary,
+      fontFamily: font,
+      fontSize: 16,
+      borderRadiusLG: 16,
+      borderRadiusSM: 12,
+      controlHeight: 50,
+    },
+  }
+})
+
 
 function formatDate(date, withYear) {
   const opts = { month: "short", day: "numeric" };
@@ -26,9 +46,20 @@ function formatDate(date, withYear) {
       })">
           <PhPencil :size="20" />
         </button>
-        <button class="icon-button delete" @click="$emit('delete', id)">
-          <PhTrash :size="20" />
-        </button>
+        <a-config-provider :theme="theme">
+          <a-popconfirm
+            placement="leftTop"
+            title="Are you sure delete this post?"
+            ok-text="Yes"
+            cancel-text="No"
+            @confirm="$emit('delete', id, imageURL)"
+          >
+            <button class="icon-button edit" >
+              <PhTrash :size="20" />
+            </button>
+          </a-popconfirm>
+        </a-config-provider>
+
       </div>
 
     </div>
@@ -56,6 +87,12 @@ function formatDate(date, withYear) {
 
 }
 
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+}
 
 .title {
   color: var(--accent2);

@@ -4,6 +4,8 @@ defineProps(['user'])
 import getPosts from "@/services/getPosts.js"
 import EventCard from "@/components/EventCard.vue"
 import NewPostModal from "@/components/NewPostModal.vue"
+import clearImage from "@/services/clearImage.js"
+import deletePost from "@/services/deletePost.js"
 const upcomingPosts = ref(null)
 const expiredPosts = ref(null)
 
@@ -41,6 +43,17 @@ function resetEditPostData() {
   editPostData.value.expirationDate = null
 }
 
+async function delPost(id, imageURL) {
+  try {
+    //delete image
+    if (imageURL !== "") {
+      await clearImage(imageURL)
+    }
+    await deletePost(id)
+  } catch (err) {
+    console.error(err)
+  }
+}
 </script>
 
 <template>
@@ -53,11 +66,11 @@ function resetEditPostData() {
     <section class="content">
       <h2>UPCOMING EVENTS</h2>
       <div class="events-container upcoming-event" v-for="post in upcomingPosts" :key="post.id">
-        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="false" @edit="editPost"/>
+        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="false" @edit="editPost" @delete="delPost"/>
       </div>
       <h2>PAST EVENTS</h2>
       <div class="events-container expired-event" v-for="post in expiredPosts" :key="post.id">
-        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost"/>
+        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost" @delete="delPost"/>
       </div>
     </section>
   </div>

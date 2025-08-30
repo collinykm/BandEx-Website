@@ -50,7 +50,7 @@ async function login() {
     <div class="modal-content" :style="isMobile? { width: '100%', height: '100%'} : { width: '500px', height: '400px', 'border-radius': '20px'}">
       <CloseButton @close="$emit('hide')" />
       <h1>BandEx Member Sign in</h1>
-      <input class="input" v-model="email" placeholder="Email" />
+      <input class="input" v-model="email" placeholder="Email" type="email" />
       <input class="input" v-model="password" type="password" placeholder="Password" />
       <button class="link" @click="login" >Login</button>
       <Transition>
@@ -81,19 +81,7 @@ h1 {
   font-size: 0.8rem;
   margin: 0;
 }
-.close-button-container {
-  width: 100%;
-  display: flex;
-  justify-content: end;
 
-}
-
-#close-button {
-  margin-top: 20px;
-  margin-right: 20px;
-  background: none;
-  border: none;
-}
 
 .modal-content {
   position: fixed;

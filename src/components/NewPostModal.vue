@@ -81,7 +81,7 @@ async function handleSubmit() {
   }
 
   isSubmitting.value = false
- // location.reload()
+  location.reload()
 }
 //Region: submit new post
 async function createNewPost() {
