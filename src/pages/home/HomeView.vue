@@ -77,7 +77,7 @@ async function delPost(id, imageURL) {
   <div class="view-container">
     <h1>Semiahmoo BandEx</h1>
     <div class="button-container">
-      <button class="link create-button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ Create new post</button>
+      <button class="create-button button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ Create new post</button>
     </div>
 
     <section class="content">

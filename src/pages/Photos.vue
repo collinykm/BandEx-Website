@@ -95,6 +95,7 @@ async function delPhotoCard(id, imageURL) {
   width: 100%;
   display: flex;
   justify-content: end;
+  margin-top: 28px;
 }
 
 .create-button {
