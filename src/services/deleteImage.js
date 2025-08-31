@@ -1,7 +1,8 @@
 import {ref, deleteObject} from "firebase/storage"
 import { storage } from "@/services/firebase.js"
 
-export default async function clearImage(imageURL) {
+export default async function deleteImage(imageURL) {
+  if (imageURL === "" || imageURL == null) {return}
   const filePath = getFilePathFromUrl(imageURL)
   if (!filePath) throw new Error("Could not parse file path from URL");
   try {

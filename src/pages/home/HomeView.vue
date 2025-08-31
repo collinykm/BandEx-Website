@@ -1,10 +1,10 @@
 <script setup>
 import {onMounted, ref} from "vue"
-defineProps(['user'])
+defineProps(['user', 'isMobile'])
 import getPosts from "@/services/posts/getPosts.js"
-import EventCard from "@/components/EventCard.vue"
+import InfoCard from "@/components/InfoCard.vue"
 import NewPostModal from "@/components/NewPostModal.vue"
-import clearImage from "@/services/posts/clearImage.js"
+import deleteImage from "@/services/deleteImage.js"
 import deletePost from "@/services/posts/deletePost.js"
 import Loader from "@/components/Loader.vue"
 import getMorePosts from "@/services/posts/getMorePosts.js"
@@ -38,7 +38,7 @@ const editPostData = ref({
   title: "",
   message: "",
   imageURL: "",
-  expirationDate: null,
+  eventDate: null,
 })
 
 function editPost(post) {
@@ -46,7 +46,7 @@ function editPost(post) {
   editPostData.value.title = post.title
   editPostData.value.message = post.message
   editPostData.value.imageURL = post.imageURL
-  editPostData.value.expirationDate = post.expirationDate
+  editPostData.value.eventDate = post.eventDate
   showNewPostModal.value = true
 }
 
@@ -56,14 +56,14 @@ function resetEditPostData() {
   editPostData.value.message = null
   editPostData.value.file = null
   editPostData.value.imageURL = ""
-  editPostData.value.expirationDate = null
+  editPostData.value.eventDate = null
 }
 
 async function delPost(id, imageURL) {
   try {
     //delete image
     if (imageURL !== "") {
-      await clearImage(imageURL)
+      await deleteImage(imageURL)
     }
     await deletePost(id)
   } catch (err) {
@@ -83,11 +83,11 @@ async function delPost(id, imageURL) {
     <section class="content">
       <h2>UPCOMING EVENTS</h2>
       <div class="events-container upcoming-event" v-for="post in upcomingPosts" :key="post.id">
-        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="false" @edit="editPost" @delete="delPost"/>
+        <InfoCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :eventDate="post.eventDate" :withYear="false" :isMobile="isMobile" @edit="editPost" @delete="delPost"/>
       </div>
       <h2>PAST EVENTS</h2>
       <div class="events-container expired-event" v-for="post in expiredPosts" :key="post.id">
-        <EventCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :expirationDate="post.expirationDate" :withYear="true" @edit="editPost" @delete="delPost"/>
+        <InfoCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :eventDate="post.eventDate" :withYear="true" :isMobile="isMobile" @edit="editPost" @delete="delPost"/>
       </div>
       <div class="load-more" style="display: flex; justify-content: center; margin-bottom: 20px;">
         <button class="button" @click="loadMore">Load More</button>
@@ -115,10 +115,7 @@ h1 {
   text-align: center;
 }
 
-h2 {
-  margin-left: 0;
-  font-family: "RubikOne", sans-serif;
-}
+
 
 
 .button-container {

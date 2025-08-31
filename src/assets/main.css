@@ -82,7 +82,8 @@ a {
 h2 {
   color: var(--primary);
   font-size: 2.5rem;
-  margin: 40px;
+  margin: 40px 40px 40px 0;
+  font-family: "RubikOne", sans-serif;
 }
 
 p{

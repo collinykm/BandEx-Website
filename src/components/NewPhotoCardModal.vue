@@ -1,16 +1,18 @@
 <script setup>
 import {computed, onMounted, onUnmounted, ref} from "vue"
 import DragUploadBox from "@/components/DragUploadBox.vue"
-import {newPost, editPost} from "@/services/posts/sendPost.js"
+
 import uploadFile from "@/services/uploadFile.js"
 import CloseButton from "@/components/CloseButton.vue"
 import dayjs from "dayjs"
 import Loader from "@/components/Loader.vue"
 import deleteImage from "@/services/deleteImage.js"
 import timedToggle from "@/utils/timedToggle.js"
+import {editCard, newCard} from "@/services/photos/sendPhotoCard.js"
+import DynamicPhoto from "@/components/DynamicPhoto.vue"
 
-const props = defineProps(['postData'])
-const emit = defineEmits(["close"])
+const props = defineProps(['cardData'])
+defineEmits(["close"])
 
 const isMobile = ref(window.innerWidth < 600)
 function updateWidth() {
@@ -44,14 +46,14 @@ onUnmounted(() => {
 const theme = ref({})
 
 
-const id = props.postData.id
-const isEditing = ref(props.postData.eventDate != null)
-const title = ref(props.postData.title)
-const message = ref(props.postData.message)
-const imageURL = ref(props.postData.imageURL)
+const id = props.cardData.id
+const isEditing = ref(props.cardData.eventDate != null)
+const title = ref(props.cardData.title)
+const folderLink = ref(props.cardData.folderLink)
+const imageURL = ref(props.cardData.imageURL)
 const hasImage = computed(() => imageURL.value !== "")
-const originalImageURL = props.postData.imageURL
-const eventDate = ref(isEditing.value ? dayjs(props.postData.eventDate) : null)
+const originalImageURL = props.cardData.imageURL
+const eventDate = ref(isEditing.value ? dayjs(props.cardData.eventDate) : null)
 
 
 const file = ref(null)
@@ -60,10 +62,10 @@ const confirm = ref(0)
 const postText = ref(isEditing.value ? "Publish Changes" : "Post")
 const errorMsg = ref(null)
 const isSubmitting = ref(false)
-//Region: submitting section
+
 async function handleSubmit() {
-  if (message.value === "" || eventDate.value == null) {
-    timedToggle(errorMsg, "Must have a message and event date", null)
+  if (folderLink.value === "" || eventDate.value == null) {
+    timedToggle(errorMsg, "Must have a link and event date", null)
     return
   }
   if (confirm.value === 0) {
@@ -74,16 +76,16 @@ async function handleSubmit() {
   isSubmitting.value = true
 
   if (!isEditing.value) {
-    await createNewPost()
+    await createNewCard()
   } else {
-    await postEditedPost()
+    await postEditedCard()
   }
 
   isSubmitting.value = false
   location.reload()
 }
-//Region: submit new post
-async function createNewPost() {
+
+async function createNewCard() {
   //handling upload
   try {
     //require an expiration date, and message
@@ -93,9 +95,9 @@ async function createNewPost() {
       console.log(`image url after uploading: ${url}`)
     }
 
-    await newPost({
+    await newCard({
       title: title.value,
-      message: message.value,
+      folderLink: folderLink.value.trim(),
       createdAt: new Date(),
       imageURL: url,
       eventDate: eventDate.value,
@@ -105,8 +107,7 @@ async function createNewPost() {
   }
 }
 
-//Region: submit edited post
-async function postEditedPost() {
+async function postEditedCard() {
   try {
     //first thing delete image if user removed it
     let url = imageURL.value !== "" ? imageURL.value : ""
@@ -120,21 +121,23 @@ async function postEditedPost() {
       }
     }
 
-    //uploading image
-    await editPost({
+
+    const cardData = {
       id: id,
       title: title.value,
-      message: message.value,
+      folderLink: folderLink.value.trim(),
       imageURL: url,
       eventDate: eventDate.value,
-    })
+    }
+    console.log("the cardData im abouta send to backend: ", cardData)
+    //uploading image
+    await editCard(cardData)
 
   } catch (error) {
     console.log(error)
   }
 
 }
-
 </script>
 
 <template>
@@ -142,14 +145,16 @@ async function postEditedPost() {
     <div class="modal-container" @click.self="$emit('close')">
       <div class="modal-content" :style="isMobile? { width: '100vw', height: '100%'} : { width: '600px', 'border-radius': '30px'}">
         <CloseButton @close="$emit('close')" />
-        <h2>{{isEditing ? "Edit Post" :  "New Post" }}</h2>
-        {{imageURL}}
+        <h2>{{isEditing ? "Edit Photos Post" :  "New Photos Post" }}</h2>
+
         <input placeholder="Title" v-model="title" class="input"/>
-        <textarea placeholder="Message" v-model="message" class="input" id="message" rows="6"/>
+        <input placeholder="Full link to google drive folder" type="url" v-model="folderLink" class="input"/>
+
+
 
         <!--Note: if editing photo and there already is an image -->
         <div class="image-container" v-if="hasImage">
-          <div class="img-wrapper"><img :src="originalImageURL" alt="poster" class="image"></div>
+          <DynamicPhoto :imageURL="originalImageURL"/>
           <!--Note: resetting imageURL NOT originalImageURL-->
           <button class="button" @click="imageURL = ''">Clear Image</button>
         </div>
@@ -157,6 +162,7 @@ async function postEditedPost() {
         <!--Note: File drop a new photo -->
 
         <div class="fileDropContainer" v-else>
+          <p>Add a cover photo to encapsulate the event</p>
           <DragUploadBox @fileChanged="(newFile) => file = newFile"/>
           <div v-if="file">
             <p>Selected file: {{ file.name }}</p>
@@ -166,15 +172,7 @@ async function postEditedPost() {
 
         <!--Note: Date picker -->
         <div class="date-time-picker">
-          <div class="expiration">
-            <label>Expiration Date</label>
-            <a-popover title="" class="popover">
-              <template #content>
-                <p>After selected date, the notice will no longer be displayed</p>
-              </template>
-              <a-button type="primary" class="span">?</a-button>
-            </a-popover>
-          </div>
+          <label>Event Date</label>
           <a-config-provider :theme="theme">
             <a-date-picker v-model:value="eventDate" class="date-picker"/>
           </a-config-provider>
@@ -228,8 +226,6 @@ h2{
 
 .input {
   width: min(450px, 80%);
-  resize: none;
-  flex-shrink: 0;
 }
 
 .image-container {
@@ -238,23 +234,10 @@ h2{
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  margin-bottom: 20px;
+  margin: 20px 0;
 }
 
-.img-wrapper{
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-}
-
-.image{
-  width: 100%;
-  height: auto;
-  border-radius: 30px;
-}
 
 .fileDropContainer {
   display: flex;
@@ -262,6 +245,7 @@ h2{
   justify-content: center;
   align-items: center;
   gap: 10px;
+  margin: 20px 0;
 }
 
 
@@ -272,21 +256,6 @@ h2{
   align-items: center;
 }
 
-
-.popover{
-  color: var(--body-text);
-  background: var(--secondary);
-  font-size: 12px;
-  text-align: center;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  box-shadow: none;
-  padding: 0;
-}
-.popover:hover {
-  background: #9e9e9e;
-}
 
 
 #error {

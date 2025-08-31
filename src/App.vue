@@ -54,7 +54,7 @@ const showLoginModal = ref(false)
     </header>
     <main>
       <LoginModal v-if="showLoginModal" @hide="showLoginModal=false"/>
-      <RouterView :user="user" />
+      <RouterView :user="user" :isMobile="isMobile" />
     </main>
     <footer>
       <Footer/>

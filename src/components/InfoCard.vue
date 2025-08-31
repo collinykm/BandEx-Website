@@ -1,7 +1,8 @@
 <script setup>
 import {PhPencil, PhTrash} from "@phosphor-icons/vue"
 import {onMounted, ref} from "vue"
-defineProps(['editable', 'id', 'title', 'message', 'imageURL', 'createdAt', 'expirationDate', 'withYear'])
+import DynamicPhoto from "@/components/DynamicPhoto.vue"
+defineProps(['editable', 'id', 'title', 'message', 'imageURL','folderLink', 'createdAt', 'eventDate', 'withYear', 'isMobile'])
 defineEmits(['edit', 'delete'])
 
 const theme = ref()
@@ -30,6 +31,11 @@ function formatDate(date, withYear) {
   const parts = d1.toLocaleDateString("en-US", withYear ? { ...opts, year: "numeric" } : opts);
   return withYear ? parts.replace(",", "") : parts;
 }
+
+
+
+
+
 </script>
 
 <template>
@@ -41,8 +47,9 @@ function formatDate(date, withYear) {
         id: id,
         title: title,
         message: message,
+        folderLink: folderLink,
         imageURL: imageURL,
-        expirationDate: expirationDate,
+        eventDate: eventDate,
       })">
           <PhPencil :size="20" />
         </button>
@@ -63,8 +70,10 @@ function formatDate(date, withYear) {
       </div>
 
     </div>
-    <div class="img-wrapper" v-if="imageURL !== ''"><img :src="imageURL" alt="poster" class="image"></div>
-    <p class="message">{{ message }}</p>
+    <DynamicPhoto :imageURL="imageURL"/>
+
+    <p class="message" v-if="message != null">{{ message }}</p>
+    <p class="message folder-link" v-if="folderLink != null">Photos can be found<a class="link" style="color: var(--accent2)" :href="folderLink">here</a></p>
     <div class="date-posted-container"><label class="date-posted">{{ formatDate(createdAt, withYear) }}</label></div>
   </div>
 </template>
@@ -100,20 +109,7 @@ function formatDate(date, withYear) {
   margin: 0;
 }
 
-.img-wrapper{
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
-}
-
-.image{
-  width: 100%;
-  height: auto;
-  border-radius: 30px;
-}
 
 .message{
   margin: 20px;
