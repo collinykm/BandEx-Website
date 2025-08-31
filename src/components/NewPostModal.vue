@@ -8,6 +8,7 @@ import dayjs from "dayjs"
 import Loader from "@/components/Loader.vue"
 import deleteImage from "@/services/deleteImage.js"
 import timedToggle from "@/utils/timedToggle.js"
+import DynamicPhoto from "@/components/DynamicPhoto.vue"
 
 const props = defineProps(['postData'])
 const emit = defineEmits(["close"])
@@ -149,7 +150,8 @@ async function postEditedPost() {
 
         <!--Note: if editing photo and there already is an image -->
         <div class="image-container" v-if="hasImage">
-          <div class="img-wrapper"><img :src="originalImageURL" alt="poster" class="image"></div>
+<!--          <div class="img-wrapper"><img :src="originalImageURL" alt="poster" class="image"></div>-->
+          <DynamicPhoto :imageURL="originalImageURL" />
           <!--Note: resetting imageURL NOT originalImageURL-->
           <button class="button" @click="imageURL = ''">Clear Image</button>
         </div>
