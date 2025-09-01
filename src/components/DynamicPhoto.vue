@@ -21,7 +21,6 @@ function onImgLoad(e) {
   <div :class="{'img-wrapper': imgPortrait}" ref="imgWrapper" :style="{height: divWidth}"  v-if="imageURL !== ''">
     <img :src="imageURL" alt="poster" class="image" @load="onImgLoad" />
   </div>
-  <p>{{divWidth}}</p>
 </template>
 
 <style scoped>

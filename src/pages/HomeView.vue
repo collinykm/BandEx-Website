@@ -11,10 +11,15 @@ import getMorePosts from "@/services/posts/getMorePosts.js"
 const upcomingPosts = ref([])
 const expiredPosts = ref([])
 
-getPosts().then((posts) => {
-  upcomingPosts.value = posts.upcoming;
-  expiredPosts.value = posts.expired;
-})
+onMounted(() => {
+  getPosts().then((posts) => {
+    upcomingPosts.value = posts.upcoming;
+    expiredPosts.value = posts.expired;
+    console.log(upcomingPosts.value)
+  })
+  }
+)
+
 
 const isLoadingMorePosts = ref(false)
 async function loadMore() {
@@ -76,12 +81,17 @@ async function delPost(id, imageURL) {
 <template>
   <div class="view-container">
     <h1>Semiahmoo BandEx</h1>
-    <div class="button-container">
-      <button class="create-button button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ Create new post</button>
-    </div>
+
 
     <section class="content">
-      <h2>UPCOMING EVENTS</h2>
+      <div class="title">
+        <h2>UPCOMING EVENTS</h2>
+
+        <button class="create-button button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ Create new post</button>
+
+      </div>
+
+      <p v-if="upcomingPosts.length === 0">No upcoming events</p>
       <div class="events-container upcoming-event" v-for="post in upcomingPosts" :key="post.id">
         <InfoCard :editable="user != null" :id="post._id" :title="post.title" :message="post.message" :imageURL="post.imageURL" :createdAt ="post.createdAt" :eventDate="post.eventDate" :withYear="false" :isMobile="isMobile" @edit="editPost" @delete="delPost"/>
       </div>
@@ -107,27 +117,28 @@ async function delPost(id, imageURL) {
   align-items: center;
 }
 
+
+.title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 h1 {
   position: relative; /* relative to hero */
   color: var(--primary);
   font-family: "Gistesy", cursive;
-  font-size: 8rem;
+  font-size: min(10vw, 100px);
+  line-height: 7rem;
   text-align: center;
+  margin-top: 40px;
 }
 
-
-
-
-.button-container {
-  width: 100%;
-  display: flex;
-  justify-content: end;
-}
 
 .create-button {
   background-color: var(--primary);
   color: var(--body-text);
-  margin-right: calc((100% - clamp(300px, 80%, 1000px))/2 + 50px) ;
 }
 
 @media (max-width: 600px) {
@@ -136,7 +147,7 @@ h1 {
   }
   h1 {
     font-size: 5rem;
-    margin-top: 40px;
+    margin: 0;
   }
   h2 {
     font-size: 2rem;

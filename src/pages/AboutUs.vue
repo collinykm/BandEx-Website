@@ -95,19 +95,24 @@ async function submit() {
 
 <template>
   <div class="view-container">
-    <div class="controls-container" v-if="user != null" style="position: absolute;">
-      <button class="button" v-if="!editing" @click="editing=true">Edit</button>
-      <div class="submit-container" v-else>
-        <button class="button" @click="cancelChanges" style="margin-right: 10px;">Cancel</button>
-        <AntPopconfirm title="Publish Changes?" @confirm="submit">
-          <button class="button" >Publish Changes</button>
-        </AntPopconfirm>
 
-        <Loader v-if="isSubmitting" />
-      </div>
-    </div>
     <section class="content">
-      <h2>Who We Are</h2>
+      <div class="title">
+        <h2>Who We Are</h2>
+
+        <div class="controls-container" v-if="user != null">
+        <button class="button" v-if="!editing" @click="editing=true">Edit</button>
+        <div class="submit-container" v-else>
+          <button class="button" @click="cancelChanges" style="margin-right: 10px;">Cancel</button>
+          <AntPopconfirm title="Publish Changes?" @confirm="submit">
+            <button class="button" >Publish Changes</button>
+          </AntPopconfirm>
+
+          <Loader v-if="isSubmitting" />
+        </div>
+      </div>
+      </div>
+
       <textarea v-model="description" class="editable-text textarea" :class="{editing: editing}" :disabled="!editing" />
 
 
@@ -151,13 +156,14 @@ async function submit() {
   width: min(700px, 95%)
 }
 
-.controls-container {
+.title {
   width: 100%;
   display: flex;
-  justify-content: end;
-  padding-right: calc((100% - clamp(300px, 80%, 1000px)) / 2 + 50px);
-  margin-top: 28px;
+  justify-content: space-between;
+  align-items: center;
 }
+
+
 
 
 .editable-text {

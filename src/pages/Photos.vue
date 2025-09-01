@@ -65,11 +65,12 @@ async function delPhotoCard(id, imageURL) {
 
 <template>
   <div class="view-container">
-    <div class="button-container"  style="position: absolute;">
-      <button class="link create-button" v-if="user!=null" @click="() => {resetEditCardData(); showModal=true;}">+ Create new post</button>
-    </div>
     <section class="content">
-      <h2>EVENT PHOTOS</h2>
+      <div class="title">
+        <h2>EVENT PHOTOS</h2>
+        <button class="link create-button" v-if="user!=null" @click="() => {resetEditCardData(); showModal=true;}">+ Create new post</button>
+      </div>
+
 
       <div class="photo-card-container" v-for="card in photoCards" :key="card._id">
         <InfoCard :editable="user != null" :id="card._id" :title="card.title" :folderLink="card.folderLink" :imageURL="card.imageURL" :created-at="card.createdAt" :eventDate="card.eventDate" :isMobile="isMobile" @edit="editPost" @delete="delPhotoCard" />
@@ -91,17 +92,16 @@ async function delPhotoCard(id, imageURL) {
   align-items: center;
 }
 
-.button-container {
+.title {
   width: 100%;
   display: flex;
-  justify-content: end;
-  margin-top: 28px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .create-button {
   background-color: var(--primary);
   color: var(--body-text);
-  margin-right: calc((100% - clamp(300px, 80%, 1000px))/2 + 50px) ;
 }
 
 .content {
