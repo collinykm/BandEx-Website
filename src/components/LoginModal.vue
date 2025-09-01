@@ -52,7 +52,7 @@ async function login() {
       <h1>BandEx Member Sign in</h1>
       <input class="input" v-model="email" placeholder="Email" type="email" />
       <input class="input" v-model="password" type="password" placeholder="Password" />
-      <button class="link" @click="login" >Login</button>
+      <button class="button" @click="login" >Login</button>
       <Transition>
         <a-alert v-if="!validLoginInfo" message="Invalid email or password" type="error" />
       </Transition>
