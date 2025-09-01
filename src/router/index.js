@@ -4,6 +4,7 @@ import AboutUs from "@/pages/AboutUs.vue"
 import Applications from "@/pages/Applications.vue"
 import Photos from "@/pages/Photos.vue"
 import Mentorship from "@/pages/Mentorship.vue"
+import NotFound from "@/pages/NotFound.vue"
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +34,11 @@ const router = createRouter({
       name: 'mentorship',
       component: Mentorship,
     },
+    {
+      path: '/:catchAll(.*)',
+      name: "404",
+      component: NotFound,
+    }
   ],
 })
 
