@@ -50,7 +50,7 @@ const showLoginModal = ref(false)
     <header>
       <NavBar v-if="!isMobile" @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
       <MobileNavMenu v-else  @login="showLoginModal = !showLoginModal" @logout="logout" :user="user"/>
-      <div :style="{height: isMobile ? '30px' : '130px', width: '100%'}"></div>
+      <div :style="{height: isMobile ? '30px' : '100px', width: '100%'}"></div>
     </header>
     <main>
       <LoginModal v-if="showLoginModal" @hide="showLoginModal=false"/>

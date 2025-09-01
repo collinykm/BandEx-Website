@@ -65,7 +65,7 @@ async function delPhotoCard(id, imageURL) {
 
 <template>
   <div class="view-container">
-    <div class="button-container">
+    <div class="button-container"  style="position: absolute;">
       <button class="link create-button" v-if="user!=null" @click="() => {resetEditCardData(); showModal=true;}">+ Create new post</button>
     </div>
     <section class="content">

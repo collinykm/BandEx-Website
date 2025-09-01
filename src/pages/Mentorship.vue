@@ -34,6 +34,7 @@ onMounted(async () => {
   nextTick(() => {
     document.querySelectorAll(".editable-text").forEach(resize)
   })
+  window.addEventListener('resize', () => document.querySelectorAll(".editable-text").forEach(resize))
 
 })
 
@@ -82,7 +83,7 @@ async function submit() {
   <div class="view-container">
     <section class="content">
       <h2>MENTORSHIP</h2>
-      <div class="controls-container" v-if="user != null">
+      <div class="controls-container" v-if="user != null" style="position: absolute;">
         <button class="button" v-if="!editing" @click="editing=true">Edit</button>
         <div class="submit-container" v-else>
           <button class="button" @click="cancelChanges" style="margin-right: 10px;">Cancel</button>
@@ -131,6 +132,7 @@ async function submit() {
   width: 100%;
   display: flex;
   justify-content: end;
+  padding-right: calc((100% - clamp(300px, 80%, 1000px)) / 2 + 50px);
 }
 
 
