@@ -115,3 +115,27 @@ p{
 .icon-button:hover {
   transform: scale(1.1);
 }
+
+
+.editable-text {
+  border: none;
+  background: none;
+  outline: none;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  margin: 10px;
+  border-radius: 20px;
+  resize: none;
+  box-sizing: border-box;
+  color: var(--primary);
+}
+
+.editing {
+  border: 2px dashed var(--accent2);
+  color: var(--body-text);
+}
+
+.content {
+  width:clamp(300px, 95%, 1000px);
+}

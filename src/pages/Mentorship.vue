@@ -3,6 +3,7 @@ import {nextTick, onMounted, ref, watch} from 'vue'
 import getMentorshipDescriptions from "@/services/pages/getMentorshipDescriptions.js"
 import updateMentorshipDescription from "@/services/pages/updateMentorshipDescription.js"
 import Loader from "@/components/Loader.vue"
+import AntPopconfirm from "@/components/AntPopconfirm.vue"
 defineProps(['user'])
 
 const menteeDescription = ref("temp")
@@ -34,24 +35,7 @@ onMounted(async () => {
     document.querySelectorAll(".editable-text").forEach(resize)
   })
 
-  //theme for ant design
-  const primary = getComputedStyle(document.documentElement).getPropertyValue('--primary')
-  const font = getComputedStyle(document.body).getPropertyValue("font-family")
-
-  //for the ant design popover confirm thing for the delete button
-  theme.value = {
-    token: {
-      colorPrimary: primary,
-      colorInfo: primary,
-      fontFamily: font,
-      fontSize: 16,
-      borderRadiusLG: 16,
-      borderRadiusSM: 12,
-      controlHeight: 50,
-    },
-  }
 })
-const theme = ref()
 
 const resize = (el) => {
   if (!el) return
@@ -101,12 +85,11 @@ async function submit() {
       <div class="controls-container" v-if="user != null">
         <button class="button" v-if="!editing" @click="editing=true">Edit</button>
         <div class="submit-container" v-else>
-          <button class="button" @click="cancelChanges">Cancel</button>
-          <a-config-provider :theme="theme">
-            <a-popconfirm placement="leftTop" title="Publish changes?" ok-text="Yes" cancel-text="No" @confirm="submit">
-              <button class="button" >Publish Changes</button>
-            </a-popconfirm>
-          </a-config-provider>
+          <button class="button" @click="cancelChanges" style="margin-right: 10px;">Cancel</button>
+          <AntPopconfirm title="Publish Changes?" @confirm="submit">
+            <button class="button" >Publish Changes</button>
+          </AntPopconfirm>
+
           <Loader v-if="isSubmitting" />
         </div>
       </div>
@@ -138,7 +121,6 @@ async function submit() {
 }
 
 .content {
-  width:clamp(300px, 95%, 1000px);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -179,29 +161,6 @@ async function submit() {
 }
 
 
-
-
-
-.editable-text {
-  border: none;
-  background: none;
-  outline: none;
-  width: 100%;
-  height: auto;
-  padding: 10px;
-  margin: 10px;
-  border-radius: 20px;
-  resize: none;
-  box-sizing: border-box;
-  color: var(--primary);
-
-
-}
-
-.editing {
-  border: 2px dashed var(--accent2);
-  color: var(--body-text);
-}
 
 .signup-area {
   margin: 30px;
