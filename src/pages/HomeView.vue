@@ -87,7 +87,7 @@ async function delPost(id, imageURL) {
       <div class="title">
         <h2>UPCOMING EVENTS</h2>
 
-        <button class="create-button button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ Create new post</button>
+        <button class="create-button button" v-if="user!=null" @click="() => {resetEditPostData(); showNewPostModal=true;}">+ New post</button>
 
       </div>
 
@@ -123,6 +123,7 @@ async function delPost(id, imageURL) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 
 h1 {

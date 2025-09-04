@@ -68,7 +68,7 @@ async function delPhotoCard(id, imageURL) {
     <section class="content">
       <div class="title">
         <h2>EVENT PHOTOS</h2>
-        <button class="link create-button" v-if="user!=null" @click="() => {resetEditCardData(); showModal=true;}">+ Create new post</button>
+        <button class="link create-button" v-if="user!=null" @click="() => {resetEditCardData(); showModal=true;}">+ New post</button>
       </div>
 
 
@@ -97,6 +97,7 @@ async function delPhotoCard(id, imageURL) {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 20px;
 }
 
 .create-button {

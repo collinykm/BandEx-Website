@@ -85,7 +85,7 @@ function toggleApplicationStatus() {
       <div class="controls-container" v-if="user != null">
       <button class="button" v-if="!editing" @click="editing=true">Edit</button>
       <div class="submit-container" v-else>
-        <button class="button" @click="cancelChanges" style="margin-right: 10px;">Cancel</button>
+        <button class="button" @click="cancelChanges">Cancel</button>
         <AntPopconfirm title="Publish Changes?" @confirm="submit">
           <button class="button" >Publish Changes</button>
         </AntPopconfirm>
@@ -134,13 +134,29 @@ function toggleApplicationStatus() {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: clamp(20px, 10%, 50px);
+  padding: 10px;
+}
+.submit-container {
+  display: flex;
+  gap: 10px;
 }
 
+/*
 .controls-container {
   position: absolute;
   right: calc((100% - clamp(300px, 80%, 1000px)) / 2 + 50px);
 }
+*/
 
+@media (max-width: 600px){
+  .title {
+    flex-direction: column;
+  }
+  .title h2 {
+    margin-bottom: 0;
+  }
+}
 
 .editable-text {
   line-height: 1.2rem;

@@ -116,7 +116,7 @@ async function submit() {
       <textarea v-model="description" class="editable-text textarea" :class="{editing: editing}" :disabled="!editing" />
 
 
-      <h2>Meet the team</h2>
+      <div style="width: 100%"><h2>Meet the team</h2></div>
       <div class="image-area">
         <img v-if="teamPhotoURL !== ''" :src="teamPhotoURL" alt="team photo" class="team-photo">
         <button v-if="teamPhotoURL !== '' && editing" @click="teamPhotoURL=''" class="button">Clear Image</button>
@@ -153,7 +153,11 @@ async function submit() {
 }
 
 .content{
-  width: min(700px, 95%)
+  width: min(700px, 95%);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
@@ -163,6 +167,15 @@ async function submit() {
   align-items: center;
 }
 
+
+@media (max-width: 600px){
+  .title {
+    flex-direction: column;
+  }
+  .title h2 {
+    margin-bottom: 0;
+  }
+}
 
 
 

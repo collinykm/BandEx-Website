@@ -128,7 +128,7 @@ p{
   border-radius: 20px;
   resize: none;
   box-sizing: border-box;
-  color: var(--primary);
+  color: var(--body-text);
 }
 
 .editing {

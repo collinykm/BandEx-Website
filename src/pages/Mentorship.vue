@@ -137,12 +137,20 @@ async function submit() {
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: clamp(20px, 10%, 50px);
+  padding: 10px;
+}
+.submit-container {
+  display: flex;
+  gap: 10px;
 }
 
+/*
 .controls-container {
   position: absolute;
-  right: calc((100% - clamp(300px, 80%, 1000px)) / 2 + 50px);;
+  right: calc((100% - clamp(300px, 80%, 1000px)) / 2 + 50px);
 }
+*/
 
 .program-description{
   text-align: center;
@@ -160,6 +168,13 @@ async function submit() {
   background-color: var(--body-text);
 }
 @media (max-width: 600px) {
+  .title {
+    flex-direction: column;
+  }
+  .title h2 {
+    margin-bottom: 0;
+  }
+
   .chart{
     flex-direction: column;
     align-items: center;
